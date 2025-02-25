@@ -22,10 +22,21 @@ router.post('/',
 
 router.get('/:id', 
     param('id').isInt().withMessage('Invalid Id')
-    .custom(value => value > 0).withMessage('Invalid Id'),
+        .custom(value => value > 0).withMessage('Invalid Id'),
+    handleInputErrors,
     BudgetController.getById)
 
-router.put('/:id', BudgetController.updateById)
+router.put('/:id', 
+    param('id').isInt().withMessage('Invalid Id')
+        .custom(value => value > 0).withMessage('Invalid Id'),
+    body('name')
+        .notEmpty().withMessage('Budget name is required'),
+    body('amount')    
+        .notEmpty().withMessage('The amount is required')
+        .isNumeric().withMessage('The amount must be a number')        
+        .custom( value => value > 0).withMessage('The amount must be more than 0'),
+    handleInputErrors,
+    BudgetController.updateById)
 
 router.delete('/:id', BudgetController.deleteById)
 
