@@ -1,5 +1,7 @@
 import { Router } from "express";
+import { body } from "express-validator"
 import { BudgetController } from "../controllers/BudgetController";
+import { handleInputErrors } from "../middleware/validation";
 
 
 const router = Router()
@@ -7,7 +9,16 @@ const router = Router()
 
 router.get('/', BudgetController.getAll)
 
-router.post('/', BudgetController.create)
+router.post('/', 
+    body('name')
+        .notEmpty().withMessage('Budget name is required'),
+    body('amount')    
+        .notEmpty().withMessage('The amount is required')
+        .isNumeric().withMessage('The amount must be a number')        
+        .custom( value => value > 0).withMessage('The amount must be more than 0'),
+    handleInputErrors,
+    BudgetController.create
+)
 
 router.get('/:id', BudgetController.getById)
 
