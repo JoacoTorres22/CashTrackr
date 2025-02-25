@@ -28,40 +28,20 @@ export class BudgetController {
     }
 
     static getById = async (req: Request, res: Response) => {
-        try {
-            const id = req.params.id
-            const budget = await Budget.findByPk(id)
-            if (!budget) {
-                const error = new Error('Budget not found')
-                res.status(404).json({error: error.message})
-                return
-            }
-            res.json(budget)
-        } catch (error) {
-            res.status(500).json({error: 'Error'})
-        }
+
+        res.json(req.budget)
     }
 
     static updateById = async (req: Request, res: Response) => {
-        try {
-            const id = req.params.id
-            const budget = await Budget.findByPk(id)
-            if (!budget) {
-                const error = new Error('Budget not found')
-                res.status(404).json({error: error.message})
-                return
-            }
-            await budget.update(req.body)
-            res.json('Budget Updated')
-
-
-        } catch (error) {
-            res.status(500).json({error: 'Error'})
-        }    
+        
+        await req.budget.update(req.body)
+        res.json('Budget Updated')
     }
     
     static deleteById = async (req: Request, res: Response) => {
-        console.log('Desde delete /api/budgets')
+
+        await req.budget.destroy()
+        res.json('Budget Deleted')
     }
 }
 
