@@ -26,6 +26,7 @@ app.use(morgan('dev'))
 
 app.use(express.json())
 
+
 app.use('/api/budgets', budgetRouter)
 app.use('/api/auth', authRouter)
 
