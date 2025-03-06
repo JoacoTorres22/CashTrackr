@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from "express"
+import type { Request, Response } from "express"
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateToken } from "../utils/token"
@@ -86,4 +86,68 @@ export class AuthController {
         res.json(jwt)
     }
 
+    static forgotPassword = async (req: Request, res: Response) => {
+        const { email } = req.body
+
+        const user = await User.findOne({where: {email}})
+        
+        if (!user) {
+            const error = new Error('User not found')
+            res.status(404).json({error: error.message})
+            return
+        }
+
+        user.token = generateToken()
+        await user.save()
+
+        await AuthEmail.sendPasswordResetEmail({
+            name: user.name,
+            email: user.email,
+            token: user.token
+        })
+
+        res.json('Check your email')
+
+    }
+
+    static validateToken = async (req: Request, res: Response) => {
+        const { token } = req.body
+
+        const tokenExists = await User.findOne({where: {token}})
+
+        if (!tokenExists) {
+            const error = new Error('Invalid Token')
+            res.status(404).json({error: error.message})
+            return
+        }
+
+        res.json('Token is valid')
+
+
+    }
+
+    static resetPasswordWithToken = async (req: Request, res: Response) => {
+        const { token } = req.params
+        const { password } = req.body
+
+        const user = await User.findOne({where: {token}})
+
+        if (!user) {
+            const error = new Error('Invalid Token')
+            res.status(404).json({error: error.message})
+            return
+        }
+
+        // Asign new password
+        user.password = await hashPassword(password)
+        user.token = null
+        await user.save()
+
+        res.json('Password updated')
+    }
+
+    static user = async (req: Request, res: Response) => {
+        res.json(req.user)
+    }
+    
 }
