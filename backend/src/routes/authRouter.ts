@@ -68,6 +68,25 @@ router.post('/reset-password/:token',
 
 router.get('/user', 
     authenticate,
-    AuthController.user)
+    AuthController.user
+)
+
+router.post('/update-password',
+    authenticate,
+    body('current_password')
+        .notEmpty().withMessage('Password cannot be empty'), 
+    body('password')
+        .isLength({min: 8}).withMessage('New password too short'), 
+    handleInputErrors,
+    AuthController.updateCurrentUserPassword
+)
+
+router.post('/check-password',
+    authenticate,
+    body('password')
+        .notEmpty().withMessage('Password cannot be empty'), 
+    handleInputErrors,
+    AuthController.checkPassword
+)
 
 export default router
