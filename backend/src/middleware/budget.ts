@@ -53,3 +53,11 @@ export const validateBudgetInput = async (req: Request, res: Response, next: Nex
 
     next()
 }
+
+export function hasAccess(req: Request, res: Response, next: NextFunction) {
+    if (req.user.id !== req.budget.userId) {
+        res.status(403).json({error: 'Forbidden'})
+        return
+    }
+    next()
+}
