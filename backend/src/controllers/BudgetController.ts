@@ -19,9 +19,9 @@ export class BudgetController {
         }
     }
 
-    static create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    static create = async (req: Request, res: Response): Promise<void> => {
         try {
-            const budget = new Budget(req.body)
+            const budget = await Budget.create(req.body)
 
             budget.userId = req.user.id
             await budget.save()
