@@ -242,3 +242,29 @@ describe('BudgetController.updateById', () => {
     });
 
 })
+
+describe('BudgetController.deleteById', () => {
+    it('should delete the budget and respond with statusCode 200', async () => {
+
+        const budgetMock = {
+            destroy: jest.fn().mockResolvedValue(true)
+        }
+
+        const req = createRequest({
+            method: 'DELETE',
+            url: '/api/budgets/:budgetId',
+            budget: budgetMock,
+        });
+        
+        const res = createResponse();
+        await BudgetController.deleteById(req, res);
+        
+        const data = res._getJSONData()
+
+        expect(res.statusCode).toBe(200);
+        expect(data).toBe('Budget Deleted');
+        expect(budgetMock.destroy).toHaveBeenCalled();
+        expect(budgetMock.destroy).toHaveBeenCalledTimes(1);
+    });
+
+})
