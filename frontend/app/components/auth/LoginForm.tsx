@@ -15,7 +15,7 @@ export default function LoginForm() {
                     <input
                         id="email"
                         type="email"
-                        placeholder="Email de Registro"
+                        placeholder="Email"
                         className="w-full border border-gray-300 p-3 rounded-lg"
                         name="email"
                     />
@@ -28,7 +28,7 @@ export default function LoginForm() {
 
                     <input
                         type="password"
-                        placeholder="Password de Registro"
+                        placeholder="Password"
                         className="w-full border border-gray-300 p-3 rounded-lg"
                         name="password"
                     />
@@ -36,7 +36,7 @@ export default function LoginForm() {
 
                 <input
                     type="submit"
-                    value='Iniciar Sesión'
+                    value='Login'
                     className="bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-black  text-xl cursor-pointer"
                 />
             </form>

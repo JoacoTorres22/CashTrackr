@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 const outfit = Outfit({subsets: ['latin']})
+
 export default function RootLayout({
   children,
 }: Readonly<{
