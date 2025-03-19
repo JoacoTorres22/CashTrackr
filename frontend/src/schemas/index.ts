@@ -15,3 +15,5 @@ export const RegisterSchema = z.object({
     message: "Passwords don't match", 
     path: ["password_confirmation"]
 });
+
+export const SuccessSchema = z.string().min(1, {message: 'Invalid Value'});
