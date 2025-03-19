@@ -1,4 +1,4 @@
-import ForgotPasswordForm from "@/app/components/auth/ForgotPasswordForm"
+import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm"
 import type { Metadata } from "next"
 import Link from "next/link"
 
