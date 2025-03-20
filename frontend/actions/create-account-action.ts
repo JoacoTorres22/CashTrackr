@@ -49,7 +49,7 @@ export async function register(prevState: ActionStateType, formData: FormData) {
         const { error } = ErrorResponseSchema.parse(json)
         return {
             errors: [ error ],
-            success: prevState.success
+            success: ''
         }
     }
         
