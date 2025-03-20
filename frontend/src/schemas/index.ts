@@ -21,3 +21,7 @@ export const SuccessSchema = z.string()
 export const ErrorResponseSchema = z.object({
         error: z.string()
 })
+
+export const TokenSchema = z.string({message: 'InvalidToken'})
+                                .length(6, {message: 'InvalidToken'})
+                                
