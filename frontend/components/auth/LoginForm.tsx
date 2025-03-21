@@ -2,24 +2,10 @@
 // import React from 'react'
 
 
-import * as React from "react";
-
-export function TestComponent() {
-  console.log("React version:", React.version);
-  console.log("useActionState:", typeof React.useActionState);
-
-  return (
-    <div>
-      <p>Revisa la consola del navegador.</p>
-    </div>
-  );
-}
-
 
 export default function LoginForm() {
     return (
         <>
-            <TestComponent />
             <form
                 className="mt-14 space-y-5"
                 noValidate

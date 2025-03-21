@@ -1,12 +1,13 @@
 "use client"
+import { useActionState, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
 import { confirmAccount } from "@/actions/confirm-account-action"
 import { PinInput, PinInputField } from "@chakra-ui/pin-input" 
-import { useActionState, useEffect, useState } from "react"
-import ErrorMessage from "../ui/ErrorMessage"
-import SuccessMessage from "../ui/SuccessMessage"
 
 export default function ConfirmAccountForm() {
 
+    const router = useRouter()
     const [isComplete, setIsComplete] = useState(false)
     const [token, setToken] = useState('')
     const confirmAccountWithToken = confirmAccount.bind(null, token)
@@ -22,6 +23,23 @@ export default function ConfirmAccountForm() {
         }
     }, [isComplete])
 
+
+    useEffect(() => {
+        if (state.errors) {
+            state.errors.forEach(error => {
+                toast.error(error)
+            })
+        }
+        if (state.success) {
+            toast.success(state.success, {
+                onClose: () => {
+                    router.push('/auth/login')
+                }
+            })
+        }
+    }, [state])
+
+
     const handleChange = (token: string) => {
         setToken(token)
     }
@@ -31,9 +49,6 @@ export default function ConfirmAccountForm() {
     }
     return (
         <>
-            {state.errors.map((error, index) => <ErrorMessage key={index}>{error}</ErrorMessage>)}
-            {state.success && <SuccessMessage>{state.success}</SuccessMessage>}
-            
             <div className="flex flex-col gap-5 my-10">
                 <div className="flex gap-2">
                     <label htmlFor="code" className="text-lg font-semibold">Code</label>

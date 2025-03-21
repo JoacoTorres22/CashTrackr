@@ -33,8 +33,8 @@ export async function confirmAccount(token: string , prevState: ActionStateType)
 
     const json = await req.json()
 
-    const { error } = ErrorResponseSchema.parse(json)
     if (!req.ok) {
+        const { error } = ErrorResponseSchema.parse(json)
         return {
             errors: [error],
             success: ''
