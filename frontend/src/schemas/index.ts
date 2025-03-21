@@ -16,6 +16,15 @@ export const RegisterSchema = z.object({
     path: ["password_confirmation"]
 });
 
+export const LoginSchema = z.object({
+        email: z.string()
+                .min(1, {message: 'Email is Required'})
+                .email( {message: 'Invalid Email'}),
+        password: z.string()
+                .min(1, {message: 'Password is Required'})
+})
+
+
 export const SuccessSchema = z.string()
 
 export const ErrorResponseSchema = z.object({
